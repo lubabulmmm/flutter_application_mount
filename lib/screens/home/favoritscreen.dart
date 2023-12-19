@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_application_mount/screens/home/detailgunung.dart';
 import 'package:flutter_application_mount/screens/home/homescreen.dart';
 import 'package:flutter_application_mount/screens/home/profil.dart';
@@ -12,7 +13,56 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  bool isFavorite = false; // Add this line to define isFavorite
+  bool isFavorite = false;
+  late ScrollController _controller;
+  bool _showFab = true;
+  bool _isElevated = true;
+  bool _isVisible = true;
+
+  FloatingActionButtonLocation get _fabLocation => _isVisible
+      ? FloatingActionButtonLocation.endContained
+      : FloatingActionButtonLocation.endFloat;
+
+  void _listen() {
+    final ScrollDirection direction = _controller.position.userScrollDirection;
+    if (direction == ScrollDirection.forward) {
+      _show();
+    } else if (direction == ScrollDirection.reverse) {
+      _hide();
+    }
+  }
+
+  void _show() {
+    if (!_isVisible) {
+      setState(() => _isVisible = true);
+    }
+  }
+
+  void _hide() {
+    if (_isVisible) {
+      setState(() => _isVisible = false);
+    }
+  }
+
+  void _onShowFabChanged(bool value) {
+    setState(() {
+      _showFab = value;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+    _controller.addListener(_listen);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_listen);
+    _controller.dispose();
+    super.dispose();
+  } // Add this line to define isFavorite
 
   @override
   Widget build(BuildContext context) {
@@ -155,44 +205,111 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           },
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromARGB(255, 48, 48, 48),
-        selectedItemColor: Colors.blueAccent,
-        unselectedItemColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorit',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: 1,
-        onTap: (int index) {
-          switch (index) {
-            case 0:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-              break;
-            case 1:
-              // Do nothing (already on FavoritesScreen)
-              break;
-            case 2:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilScreen()),
-              );
-              break;
-          }
-        },
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Color.fromARGB(255, 48, 48, 48),
+      //   selectedItemColor: Colors.blueAccent,
+      //   unselectedItemColor: Colors.white,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Beranda',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.favorite),
+      //       label: 'Favorit',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.person),
+      //       label: 'Profil',
+      //     ),
+      //   ],
+      //   currentIndex: 1,
+      //   onTap: (int index) {
+      //     switch (index) {
+      //       case 0:
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => HomeScreen()),
+      //         );
+      //         break;
+      //       case 1:
+      //         // Do nothing (already on FavoritesScreen)
+      //         break;
+      //       case 2:
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => ProfilScreen()),
+      //         );
+      //         break;
+      //     }
+      //   },
+      // ),
+      floatingActionButton: _showFab
+          ? FloatingActionButton(
+              onPressed: () {},
+              tooltip: 'Cari Film',
+              elevation: _isVisible ? 0.0 : null,
+              backgroundColor: Colors.amber[700],
+              child: const Icon(Icons.search),
+            )
+          : null,
+      floatingActionButtonLocation: _fabLocation,
+      bottomNavigationBar:
+          _DemoBottomAppBar(isElevated: _isElevated, isVisible: _isVisible),
+    );
+  }
+}
+
+class _DemoBottomAppBar extends StatelessWidget {
+  const _DemoBottomAppBar({
+    required this.isElevated,
+    required this.isVisible,
+  });
+
+  final bool isElevated;
+  final bool isVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      height: isVisible ? 80.0 : 0,
+      child: BottomAppBar(
+        elevation: isElevated ? null : 0.0,
+        color: Colors.red[900],
+        child: Row(
+          children: <Widget>[
+            // * PROFIL --->
+
+            IconButton(
+              tooltip: 'Profil Kamu',
+              icon: const Icon(
+                Icons.person_2_sharp,
+                color: Colors.white,
+              ),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => ProfilScreen())),
+            ),
+
+            // * BOOKMARK --->
+            IconButton(
+              tooltip: 'Suka',
+              icon: const Icon(Icons.favorite_border_outlined,
+                  color: Colors.white),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const FavoritesScreen())),
+            ),
+
+            IconButton(
+              tooltip: 'Home',
+              icon: const Icon(Icons.home_filled, color: Colors.white),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen())),
+            ),
+          ],
+        ),
       ),
     );
   }

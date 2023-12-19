@@ -85,7 +85,7 @@ class _SignInPage1State extends State<SignInPage1> {
                         return null;
                       },
                       onChanged: (val) {
-                        setState(() => pass = val);
+                        setState(() => email = val);
                       },
                       decoration: InputDecoration(
                         labelText: 'Email',

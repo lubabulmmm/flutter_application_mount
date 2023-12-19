@@ -420,6 +420,18 @@ class HomeState extends State<HomeScreen> {
           ],
         ),
       ),
+      floatingActionButton: _showFab
+          ? FloatingActionButton(
+              onPressed: () {},
+              tooltip: 'Cari Film',
+              elevation: _isVisible ? 0.0 : null,
+              backgroundColor: Colors.amber[700],
+              child: const Icon(Icons.search),
+            )
+          : null,
+      floatingActionButtonLocation: _fabLocation,
+      bottomNavigationBar:
+          _DemoBottomAppBar(isElevated: _isElevated, isVisible: _isVisible),
     );
   }
 }
@@ -459,10 +471,18 @@ class _DemoBottomAppBar extends StatelessWidget {
 
             // * BOOKMARK --->
             IconButton(
-              tooltip: 'Bookmark',
-              icon: const Icon(Icons.bookmark, color: Colors.white),
+              tooltip: 'Suka',
+              icon: const Icon(Icons.favorite_border_outlined,
+                  color: Colors.white),
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => const FavoritesScreen())),
+            ),
+
+            IconButton(
+              tooltip: 'Home',
+              icon: const Icon(Icons.home_filled, color: Colors.white),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen())),
             ),
           ],
         ),
