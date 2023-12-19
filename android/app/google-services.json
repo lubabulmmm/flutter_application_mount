@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "278818755713",
+    "project_id": "mp-mount",
+    "storage_bucket": "mp-mount.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278818755713:android:6e3277d2250d3b5e7b2980",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_mount"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1OUj7HPFRCg05EGRfU4vwU5XNxTnfGi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
