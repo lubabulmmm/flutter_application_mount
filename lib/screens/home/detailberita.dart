@@ -60,7 +60,7 @@ class DetailScreenBerita extends StatelessWidget {
                       width: 10.0,
                     ),
                     Text(
-                      beritaa.lokasi,
+                      beritaa.sumber,
                       style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 14,

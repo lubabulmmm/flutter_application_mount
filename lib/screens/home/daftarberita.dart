@@ -88,7 +88,7 @@ class _DaftarBeritaState extends State<DaftarBerita> {
                                 ),
                                 const SizedBox(width: 2),
                                 Text(
-                                  dataBerita[index].lokasi,
+                                  dataBerita[index].sumber,
                                   style: TextStyle(
                                     color: Colors
                                         .grey, // Set the text color to gray

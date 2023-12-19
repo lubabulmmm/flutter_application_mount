@@ -417,7 +417,7 @@ class HomeState extends State<HomeScreen> {
                                   ),
                                   SizedBox(width: 8),
                                   Text(
-                                    dataBerita[index].lokasi,
+                                    dataBerita[index].sumber,
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w300,
