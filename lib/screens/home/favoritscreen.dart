@@ -80,14 +80,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailScreen(
-                      gunungs: dataResep[index],
-                    ),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => DetailScreen(
+                //       gunungs: dataResep[index],
+                //     ),
+                //   ),
+                // );
               },
               child: Card(
                 color: Color(0xFF0F1A1A),

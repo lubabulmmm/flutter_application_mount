@@ -2,9 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_mount/screens/home/gunung.dart';
 
 class DetailScreen extends StatefulWidget {
-  final gunung gunungs;
+  final String nama;
+  final String lokasi;
+  final String pict;
+  final String tiket;
+  final String jam;
+  final String desc;
 
-  const DetailScreen({Key? key, required this.gunungs}) : super(key: key);
+  const DetailScreen({
+    Key? key,
+    required this.nama,
+    required this.lokasi,
+    required this.pict,
+    required this.tiket,
+    required this.jam,
+    required this.desc,
+  }) : super(key: key);
 
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -35,7 +48,7 @@ class _DetailScreenState extends State<DetailScreen> {
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.gunungs.image),
+                image: AssetImage(widget.pict),
                 fit: BoxFit.cover,
               ),
             ),
@@ -48,7 +61,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 Row(
                   children: [
                     Text(
-                      widget.gunungs.name,
+                      widget.nama,
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w700,
@@ -57,26 +70,26 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     const Spacer(),
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: IconButton(
-                        icon: Icon(
-                          widget.gunungs.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
-                          color: widget.gunungs.isFavorite
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            widget.gunungs.isFavorite =
-                                !widget.gunungs.isFavorite;
-                          });
-                          // Handle button click
-                        },
-                      ),
-                    ),
+                    // MouseRegion(
+                    //   cursor: SystemMouseCursors.click,
+                    //   child: IconButton(
+                    //     icon: Icon(
+                    //       widget.gunungs.isFavorite
+                    //           ? Icons.favorite
+                    //           : Icons.favorite_border_outlined,
+                    //       color: widget.gunungs.isFavorite
+                    //           ? Colors.red
+                    //           : Colors.white,
+                    //     ),
+                    //     onPressed: () {
+                    //       setState(() {
+                    //         widget.gunungs.isFavorite =
+                    //             !widget.gunungs.isFavorite;
+                    //       });
+                    //       // Handle button click
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 10.0),
@@ -93,7 +106,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       width: 10.0,
                     ),
                     Text(
-                      'Disukai oleh ' + widget.gunungs.rating.toString(),
+                      'Disukai oleh ' + widget.nama,
                       style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 13,
@@ -117,7 +130,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       width: 10.0,
                     ),
                     Text(
-                      widget.gunungs.lokasi,
+                      widget.lokasi,
                       style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 14,
@@ -231,7 +244,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                     const SizedBox(height: 5.0),
                     Text(
-                      widget.gunungs.deskripsi,
+                      widget.desc,
                       style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 11,

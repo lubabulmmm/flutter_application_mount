@@ -53,7 +53,12 @@ class _DaftarGunungState extends State<DaftarGunung> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DetailScreen(
-                              gunungs: documents[index],
+                              nama: documents['nama'],
+                              tiket: documents['tiket'],
+                              jam: documents['jam'],
+                              desc: documents['desc'],
+                              pict: documents['pict'],
+                              lokasi: documents['lokasi'],
                             ),
                           ),
                         );
