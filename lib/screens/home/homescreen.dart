@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -69,6 +70,9 @@ class HomeState extends State<HomeScreen> {
     _controller.dispose();
     super.dispose();
   }
+
+  final CollectionReference _favListMount =
+      FirebaseFirestore.instance.collection('fav-mount');
 
   @override
   Widget build(BuildContext context) {
@@ -190,112 +194,117 @@ class HomeState extends State<HomeScreen> {
             // Mountain List
             Container(
               height: 260,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: dataResep.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailScreen(
-                            gunungs: dataResep[index],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      color: Color(0xFF000000),
-                      child: Container(
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF0F1A1A),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                dataResep[index].image,
-                                width: 200,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 5.0,
-                                top: 8.0,
-                                left: 12.0,
-                              ),
-                              child: Text(
-                                dataResep[index].name,
-                                style: TextStyle(
-                                  fontFamily: 'Monserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 16,
+              child: StreamBuilder(
+                  stream: _favListMount.snapshots(),
+                  builder:
+                      (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: dataResep.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                  gunungs: dataResep[index],
                                 ),
-                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 5.0, left: 8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on_outlined,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    dataResep[index].lokasi,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ],
+                            );
+                          },
+                          child: Card(
+                            color: Color(0xFF000000),
+                            child: Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF0F1A1A),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 5.0, left: 8.0),
-                              child: Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    dataResep[index].rating,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey,
-                                      fontSize: 13,
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.asset(
+                                      dataResep[index].image,
+                                      width: 200,
+                                      height: 150,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(right: 40),
+                                    padding: const EdgeInsets.only(
+                                      bottom: 5.0,
+                                      top: 8.0,
+                                      left: 12.0,
+                                    ),
+                                    child: Text(
+                                      dataResep[index].name,
+                                      style: TextStyle(
+                                        fontFamily: 'Monserrat',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 5.0, left: 8.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          dataResep[index].lokasi,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.grey,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 5.0, left: 8.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          dataResep[index].rating,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.grey,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 40),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
             ),
 
             // List of News
