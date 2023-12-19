@@ -78,13 +78,13 @@ class HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Color.fromARGB(255, 98, 62, 1),
         centerTitle: true,
         title: Text(
           'Daftar Gunung',
           style: TextStyle(
               fontSize: 20.0,
-              color: Colors.red[800],
+              color: const Color.fromARGB(255, 255, 255, 255),
               fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
@@ -99,7 +99,7 @@ class HomeState extends State<HomeScreen> {
         ],
       ),
       body: Container(
-        color: Color(0xFF000000),
+        color: Color.fromARGB(255, 0, 0, 0),
         child: ListView(
           children: [
             // Search Bar
@@ -168,7 +168,7 @@ class HomeState extends State<HomeScreen> {
                       fontFamily: 'Monserrat',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Colors.blueAccent,
+                      color: const Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                   TextButton(
@@ -183,7 +183,7 @@ class HomeState extends State<HomeScreen> {
                       style: TextStyle(
                         fontFamily: 'Monserrat',
                         fontWeight: FontWeight.w500,
-                        color: Colors.blueAccent,
+                        color: const Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
                   ),
@@ -226,7 +226,7 @@ class HomeState extends State<HomeScreen> {
                               child: Container(
                                 width: 200,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF0F1A1A),
+                                  color: Color.fromARGB(255, 84, 65, 1),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -329,7 +329,7 @@ class HomeState extends State<HomeScreen> {
                       fontFamily: 'Monserrat',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Colors.blueAccent,
+                      color: const Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                   TextButton(
@@ -344,7 +344,7 @@ class HomeState extends State<HomeScreen> {
                       style: TextStyle(
                         fontFamily: 'Monserrat',
                         fontWeight: FontWeight.w500,
-                        color: Colors.blueAccent,
+                        color: const Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
                   ),
@@ -370,7 +370,7 @@ class HomeState extends State<HomeScreen> {
                       );
                     },
                     child: Card(
-                      color: Color(0xFF000000),
+                      color: Color.fromARGB(255, 88, 63, 2),
                       child: Container(
                         width: 250,
                         decoration: BoxDecoration(

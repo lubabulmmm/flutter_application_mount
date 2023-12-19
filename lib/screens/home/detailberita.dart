@@ -52,7 +52,7 @@ class DetailScreenBerita extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Icon(
-                      Icons.location_on_outlined,
+                      Icons.article_outlined,
                       size: 22,
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
