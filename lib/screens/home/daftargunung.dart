@@ -72,15 +72,14 @@ class _DaftarGunungState extends State<DaftarGunung> {
                           child: Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
-                                    documents['pict'],
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
+                                padding: EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                          "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
                                 ),
                               ),
                               Expanded(

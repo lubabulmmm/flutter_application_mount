@@ -232,14 +232,13 @@ class HomeState extends State<HomeScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(
-                                        documents['pict'],
-                                        width: 200,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    Container(
+                                      width: 200,
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                              "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_mount/screens/home/gunung.dart';
 
@@ -48,7 +50,8 @@ class _DetailScreenState extends State<DetailScreen> {
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.pict),
+                image: NetworkImage(
+                    "https://drive.google.com/uc?export=view&id=${widget.pict}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -209,7 +212,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                               ),
                               Text(
-                                'Rp ..... /orang',
+                                'Rp ${widget.tiket} /orang',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 12,
