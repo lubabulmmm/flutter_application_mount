@@ -179,7 +179,7 @@ class _DetailBeritaScreenState extends State<DetailBeritaScreen> {
                         color: Color.fromARGB(255, 252, 252, 252),
                       ),
                     ),
-                    const Spacer(),
+                    // const Spacer(),
                     // MouseRegion(
                     //   cursor: SystemMouseCursors.click,
                     //   child: IconButton(

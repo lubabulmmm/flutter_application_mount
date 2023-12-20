@@ -80,14 +80,17 @@ class HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading:
+            false, // Add this line to hide the back button
         backgroundColor: Color.fromARGB(255, 98, 62, 1),
         centerTitle: true,
         title: Text(
           'Daftar Gunung',
           style: TextStyle(
-              fontSize: 20.0,
-              color: const Color.fromARGB(255, 255, 255, 255),
-              fontWeight: FontWeight.bold),
+            fontSize: 20.0,
+            color: const Color.fromARGB(255, 255, 255, 255),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: <Widget>[
           IconButton(
@@ -100,6 +103,7 @@ class HomeState extends State<HomeScreen> {
           )
         ],
       ),
+
       body: Container(
         color: Color.fromARGB(255, 0, 0, 0),
         child: ListView(
@@ -539,15 +543,15 @@ class HomeState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: _showFab
-          ? FloatingActionButton(
-              onPressed: () {},
-              tooltip: 'Cari Film',
-              elevation: _isVisible ? 0.0 : null,
-              // backgroundColor: Colors.amber[700],
-              // child: const Icon(Icons.search),
-            )
-          : null,
+      // floatingActionButton: _showFab
+      //     ? FloatingActionButton(
+      //         onPressed: () {},
+      //         tooltip: 'Cari Film',
+      //         elevation: _isVisible ? 0.0 : null,
+      //         backgroundColor: Colors.amber[700],
+      //         child: const Icon(Icons.search),
+      //       )
+      // : null,
       floatingActionButtonLocation: _fabLocation,
       bottomNavigationBar:
           _DemoBottomAppBar(isElevated: _isElevated, isVisible: _isVisible),
