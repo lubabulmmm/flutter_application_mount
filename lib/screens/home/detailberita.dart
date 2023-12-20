@@ -115,14 +115,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_mount/screens/home/gunung.dart';
 
 class DetailBeritaScreen extends StatefulWidget {
-  final String isiberita;
+  final String isi;
   final String judul;
   final String pict;
   final String sumber;
 
   const DetailBeritaScreen({
     Key? key,
-    required this.isiberita,
+    required this.isi,
     required this.judul,
     required this.pict,
     required this.sumber,
@@ -246,7 +246,7 @@ class _DetailBeritaScreenState extends State<DetailBeritaScreen> {
                     ),
                     const SizedBox(height: 5.0),
                     Text(
-                      widget.isiberita,
+                      widget.isi,
                       style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 11,

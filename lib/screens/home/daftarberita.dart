@@ -127,7 +127,7 @@ class DaftarBeritaGunung extends StatefulWidget {
 class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
   bool isSettingsSelected = false;
 
-  final CollectionReference _beritaMount =
+  final CollectionReference _newsMount =
       FirebaseFirestore.instance.collection('news');
 
   @override
@@ -154,24 +154,24 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
       body: Container(
         color: Color(0xFF000000),
         child: StreamBuilder(
-            stream: _beritaMount.snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-              if (streamSnapshot.hasData) {
+            stream: _newsMount.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshott) {
+              if (streamSnapshott.hasData) {
                 return ListView.builder(
-                  itemCount: streamSnapshot.data!.docs.length,
+                  itemCount: streamSnapshott.data!.docs.length,
                   itemBuilder: (context, index) {
-                    final DocumentSnapshot documents =
-                        streamSnapshot.data!.docs[index];
+                    final DocumentSnapshot dokumen =
+                        streamSnapshott.data!.docs[index];
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => DetailBeritaScreen(
-                              pict: documents['pict'],
-                              judul: documents['judul'],
-                              sumber: documents['sumber'],
-                              isiberita: documents['isiberita'],
+                              pict: dokumen['pict'],
+                              judul: dokumen['judul'],
+                              sumber: dokumen['sumber'],
+                              isi: dokumen['isi'],
                             ),
                           ),
                         );
@@ -192,7 +192,7 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
                                       child: Image.network(
-                                          "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
+                                          "https://drive.google.com/uc?export=view&id=${dokumen['pict']}")),
                                 ),
                               ),
                               Expanded(
@@ -204,7 +204,7 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          documents['judul'],
+                                          dokumen['judul'],
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
@@ -247,7 +247,7 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                                           ),
                                           SizedBox(width: 4),
                                           Text(
-                                            documents['sumber'],
+                                            dokumen['sumber'],
                                             style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w300,

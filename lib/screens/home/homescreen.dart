@@ -73,7 +73,7 @@ class HomeState extends State<HomeScreen> {
 
   final CollectionReference _favListMount =
       FirebaseFirestore.instance.collection('fav-mount');
-  final CollectionReference _beritaMount =
+  final CollectionReference _newsMount =
       FirebaseFirestore.instance.collection('news');
 
   @override
@@ -443,28 +443,26 @@ class HomeState extends State<HomeScreen> {
             Container(
               height: 260,
               child: StreamBuilder(
-                  stream: _beritaMount.snapshots(),
+                  stream: _newsMount.snapshots(),
                   builder:
-                      (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                    if (streamSnapshot.hasData) {
+                      (context, AsyncSnapshot<QuerySnapshot> streamSnapshott) {
+                    if (streamSnapshott.hasData) {
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: streamSnapshot.data!.docs.length,
+                        itemCount: streamSnapshott.data!.docs.length,
                         itemBuilder: (context, index) {
-                          final DocumentSnapshot documents =
-                              streamSnapshot.data!.docs[index];
+                          final DocumentSnapshot dokumen =
+                              streamSnapshott.data!.docs[index];
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DetailScreen(
-                                    nama: documents['nama'],
-                                    tiket: documents['tiket'],
-                                    jam: documents['jam'],
-                                    desc: documents['desc'],
-                                    pict: documents['pict'],
-                                    lokasi: documents['lokasi'],
+                                  builder: (context) => DetailBeritaScreen(
+                                    judul: dokumen['judul'],
+                                    pict: dokumen['pict'],
+                                    sumber: dokumen['sumber'],
+                                    isi: dokumen['isi'],
                                   ),
                                 ),
                               );
@@ -486,7 +484,7 @@ class HomeState extends State<HomeScreen> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           child: Image.network(
-                                              "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
+                                              "https://drive.google.com/uc?export=view&id=${dokumen['pict']}")),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -495,7 +493,7 @@ class HomeState extends State<HomeScreen> {
                                         left: 12.0,
                                       ),
                                       child: Text(
-                                        documents['nama'],
+                                        dokumen['judul'],
                                         style: TextStyle(
                                           fontFamily: 'Monserrat',
                                           fontWeight: FontWeight.bold,
@@ -516,38 +514,13 @@ class HomeState extends State<HomeScreen> {
                                           ),
                                           SizedBox(width: 4),
                                           Text(
-                                            documents['lokasi'],
+                                            dokumen['sumber'],
                                             style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w300,
                                               color: Colors.grey,
                                               fontSize: 13,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.favorite,
-                                            color: Colors.red,
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            documents['tiket'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 40),
                                           ),
                                         ],
                                       ),
@@ -571,8 +544,8 @@ class HomeState extends State<HomeScreen> {
               onPressed: () {},
               tooltip: 'Cari Film',
               elevation: _isVisible ? 0.0 : null,
-              backgroundColor: Colors.amber[700],
-              child: const Icon(Icons.search),
+              // backgroundColor: Colors.amber[700],
+              // child: const Icon(Icons.search),
             )
           : null,
       floatingActionButtonLocation: _fabLocation,
@@ -598,11 +571,10 @@ class _DemoBottomAppBar extends StatelessWidget {
       height: isVisible ? 80.0 : 0,
       child: BottomAppBar(
         elevation: isElevated ? null : 0.0,
-        color: Colors.red[900],
+        color: Color.fromARGB(255, 84, 65, 1),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            // * PROFIL --->
-
             IconButton(
               tooltip: 'Profil Kamu',
               icon: const Icon(
@@ -610,25 +582,32 @@ class _DemoBottomAppBar extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => ProfilScreen())),
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => ProfilScreen(),
+                ),
+              ),
             ),
-
-            // * BOOKMARK --->
+            Spacer(), // Add Spacer to create space between icons
             IconButton(
               tooltip: 'Suka',
               icon: const Icon(Icons.favorite_border_outlined,
                   color: Colors.white),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const FavoritesScreen())),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const FavoritesScreen(),
+                ),
+              ),
             ),
-
+            Spacer(), // Add Spacer to create space between icons
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home_filled, color: Colors.white),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const HomeScreen())),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen(),
+                ),
+              ),
             ),
           ],
         ),

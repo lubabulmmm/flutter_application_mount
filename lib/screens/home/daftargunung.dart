@@ -77,7 +77,7 @@ class _DaftarGunungState extends State<DaftarGunung> {
                                   width: 150,
                                   height: 150,
                                   child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(40),
                                       child: Image.network(
                                           "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
                                 ),
