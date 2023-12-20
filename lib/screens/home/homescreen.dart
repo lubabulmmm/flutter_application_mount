@@ -19,6 +19,13 @@ class HomeScreen extends StatefulWidget {
   State createState() => HomeState();
 }
 
+// class AuthService {
+//   // final FirebaseAuth _auth = FirebaseAuth.instance;
+
+//   // Sign out method
+
+// }
+
 class HomeState extends State<HomeScreen> {
   final AuthService _auth = AuthService();
   late ScrollController _controller;
@@ -76,34 +83,59 @@ class HomeState extends State<HomeScreen> {
   final CollectionReference _newsMount =
       FirebaseFirestore.instance.collection('news');
 
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
+  Future<void> _confirmSignOut() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Konfirmasi'),
+          content: Text('Anda yakin ingin keluar?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await _auth.signOut();
+              },
+              child: Text('Ya'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tidak'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading:
-            false, // Add this line to hide the back button
         backgroundColor: Color.fromARGB(255, 98, 62, 1),
         centerTitle: true,
         title: Text(
           'Daftar Gunung',
           style: TextStyle(
-            fontSize: 20.0,
-            color: const Color.fromARGB(255, 255, 255, 255),
-            fontWeight: FontWeight.bold,
-          ),
+              fontSize: 20.0,
+              color: const Color.fromARGB(255, 255, 255, 255),
+              fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () async {
-              await _auth.signOut();
+          ElevatedButton(
+            onPressed: () {
+              _confirmSignOut();
             },
-            icon: Icon(Icons.logout_outlined),
-            iconSize: 30.0,
-            color: Colors.amber,
+            child: Text('Keluar'),
           )
         ],
       ),
-
       body: Container(
         color: Color.fromARGB(255, 0, 0, 0),
         child: ListView(
@@ -543,15 +575,15 @@ class HomeState extends State<HomeScreen> {
           ],
         ),
       ),
-      // floatingActionButton: _showFab
-      //     ? FloatingActionButton(
-      //         onPressed: () {},
-      //         tooltip: 'Cari Film',
-      //         elevation: _isVisible ? 0.0 : null,
-      //         backgroundColor: Colors.amber[700],
-      //         child: const Icon(Icons.search),
-      //       )
-      // : null,
+      floatingActionButton: _showFab
+          ? FloatingActionButton(
+              onPressed: () {},
+              tooltip: 'Cari Film',
+              elevation: _isVisible ? 0.0 : null,
+              backgroundColor: Colors.amber[700],
+              child: const Icon(Icons.search),
+            )
+          : null,
       floatingActionButtonLocation: _fabLocation,
       bottomNavigationBar:
           _DemoBottomAppBar(isElevated: _isElevated, isVisible: _isVisible),
@@ -577,8 +609,8 @@ class _DemoBottomAppBar extends StatelessWidget {
         elevation: isElevated ? null : 0.0,
         color: Color.fromARGB(255, 84, 65, 1),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            // * PROFIL --->
             IconButton(
               tooltip: 'Profil Kamu',
               icon: const Icon(
@@ -586,32 +618,25 @@ class _DemoBottomAppBar extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => ProfilScreen(),
-                ),
-              ),
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => ProfilScreen())),
             ),
-            Spacer(), // Add Spacer to create space between icons
+
+            // * BOOKMARK --->
             IconButton(
               tooltip: 'Suka',
               icon: const Icon(Icons.favorite_border_outlined,
                   color: Colors.white),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const FavoritesScreen(),
-                ),
-              ),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const FavoritesScreen())),
             ),
-            Spacer(), // Add Spacer to create space between icons
+
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home_filled, color: Colors.white),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const HomeScreen(),
-                ),
-              ),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen())),
             ),
           ],
         ),

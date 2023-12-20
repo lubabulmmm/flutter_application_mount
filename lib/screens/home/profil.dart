@@ -74,11 +74,16 @@ class _ProfilScreenState extends State<ProfilScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF0F1A1A),
-        centerTitle: true,
-        title: const Text('Profil'),
-      ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromARGB(255, 98, 62, 1),
+          centerTitle: true,
+          title: Text(
+            'Profil',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold, // Make the text bold
+            ),
+          )),
       backgroundColor: Colors.black,
       body: Center(
         child: Column(
@@ -298,8 +303,8 @@ class _DemoBottomAppBar extends StatelessWidget {
         elevation: isElevated ? null : 0.0,
         color: Color.fromARGB(255, 84, 65, 1),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            // * PROFIL --->
             IconButton(
               tooltip: 'Profil Kamu',
               icon: const Icon(
@@ -307,32 +312,25 @@ class _DemoBottomAppBar extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => ProfilScreen(),
-                ),
-              ),
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => ProfilScreen())),
             ),
-            Spacer(), // Add Spacer to create space between icons
+
+            // * BOOKMARK --->
             IconButton(
               tooltip: 'Suka',
               icon: const Icon(Icons.favorite_border_outlined,
                   color: Colors.white),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const FavoritesScreen(),
-                ),
-              ),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const FavoritesScreen())),
             ),
-            Spacer(), // Add Spacer to create space between icons
+
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home_filled, color: Colors.white),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const HomeScreen(),
-                ),
-              ),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen())),
             ),
           ],
         ),
