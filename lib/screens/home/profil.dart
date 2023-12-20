@@ -70,6 +70,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
     super.dispose();
   }
 
+  final username = FirebaseAuth.instance.currentUser!.email;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +91,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Column(
+            Column(
               children: [
                 CircleAvatar(
                   radius: 60,
@@ -97,7 +99,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'Azizi Mau Naik Gunung',
+                  '${username}',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -105,170 +107,65 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(height: 5),
-                Text(
-                  'azizi123@gmail.com',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
               ],
             ),
-            const SizedBox(height: 70),
-            // Bagian Tombol Navigasi
-            Container(
-              margin: const EdgeInsets.only(bottom: 150),
-              child: Column(
-                children: [
-                  Container(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Navigasi ke halaman Favorit
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const EditProfil()),
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors
-                            .transparent), // Set background color to transparent
-                        elevation: MaterialStateProperty.all<double>(
-                            0), // Remove the shadow
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            // Set border radius to 0
-                          ),
-                        ),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.edit,
-                          ),
-                          SizedBox(width: 20),
-                          Text(
-                            'Edit Profil                                          >',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: 'Poppins',
-                                fontSize: 17),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     // Menampilkan dialog keluar
-                  //     showDialog(
-                  //       context: context,
-                  //       builder: (BuildContext context) {
-                  //         return AlertDialog(
-                  //           title: const Text('Keluar'),
-                  //           content: const Text(
-                  //               'Apakah Anda yakin ingin keluar dari Mount Java?'),
-                  //           actions: [
-                  //             TextButton(
-                  //               onPressed: () {
-                  //                 Navigator.of(context).pop();
-                  //               },
-                  //               child: const Text('Batal'),
-                  //             ),
-                  //             TextButton(
-                  //               onPressed: () async {
-                  //                 await _auth.signOut();
-                  //               },
-                  //               child: const Text('Keluar'),
-                  //             ),
-                  //           ],
-                  //         );
-                  //       },
-                  //     );
-                  //   },
-                  //   style: ButtonStyle(
-                  //     backgroundColor: MaterialStateProperty.all<Color>(Colors
-                  //         .transparent), // Set background color to transparent
-                  //     elevation: MaterialStateProperty.all<double>(
-                  //         0), // Remove the shadow
-                  //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //       RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(0),
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   child: const Row(
-                  //     mainAxisSize: MainAxisSize.min,
-                  //     children: [
-                  //       Icon(
-                  //         Icons.exit_to_app,
-                  //       ),
-                  //       SizedBox(width: 20),
-                  //       Text(
-                  //         'Keluar                                               >',
-                  //         style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontWeight: FontWeight.w300,
-                  //             fontFamily: 'Poppins',
-                  //             fontSize: 17),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
+            // const SizedBox(height: 70),
+            // // Bagian Tombol Navigasi
+            // Container(
+            //   margin: const EdgeInsets.only(bottom: 150),
+            //   child: Column(
+            //     children: [
+            //       Container(
+            //         child: ElevatedButton(
+            //           onPressed: () {
+            //             // Navigasi ke halaman Favorit
+            //             Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                   builder: (BuildContext context) =>
+            //                       const EditProfil()),
+            //             );
+            //           },
+            //           style: ButtonStyle(
+            //             backgroundColor: MaterialStateProperty.all<Color>(Colors
+            //                 .transparent), // Set background color to transparent
+            //             elevation: MaterialStateProperty.all<double>(
+            //                 0), // Remove the shadow
+            //             shape:
+            //                 MaterialStateProperty.all<RoundedRectangleBorder>(
+            //               RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.circular(0),
+            //                 // Set border radius to 0
+            //               ),
+            //             ),
+            //           ),
+            //           child: const Row(
+            //             mainAxisSize: MainAxisSize.min,
+            //             children: [
+            //               Icon(
+            //                 Icons.edit,
+            //               ),
+            //               SizedBox(width: 20),
+            //               Text(
+            //                 'Edit Profil                                          >',
+            //                 style: TextStyle(
+            //                     color: Colors.white,
+            //                     fontWeight: FontWeight.w300,
+            //                     fontFamily: 'Poppins',
+            //                     fontSize: 17),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Color(0xFF0F1A1A),
-      //   selectedItemColor: Colors.blueAccent,
-      //   unselectedItemColor: Colors.white,
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Beranda',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.favorite),
-      //       label: 'Favorit',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.person),
-      //       label: 'Profil',
-      //     ),
-      //   ],
-      //   currentIndex: 2, // Set the current index to 2 to highlight 'Profil'
-      //   onTap: (int index) {
-      //     switch (index) {
-      //       case 0:
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => HomeScreen()),
-      //         );
-      //         break;
-      //       case 1:
-      //         // Navigate to FavoritesScreen
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => FavoritesScreen()),
-      //         );
-      //         break;
-      //       case 2:
-      //         break;
-      //     }
-      //   },
-      // ),
+
       // floatingActionButton: _showFab
       //     ? FloatingActionButton(
       //         onPressed: () {},
@@ -303,8 +200,10 @@ class _DemoBottomAppBar extends StatelessWidget {
         elevation: isElevated ? null : 0.0,
         color: Color.fromARGB(255, 84, 65, 1),
         child: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.spaceAround, // Center buttons with space around
           children: <Widget>[
-            // * PROFIL --->
+            // PROFIL
             IconButton(
               tooltip: 'Profil Kamu',
               icon: const Icon(
@@ -317,7 +216,10 @@ class _DemoBottomAppBar extends StatelessWidget {
                       builder: (BuildContext context) => ProfilScreen())),
             ),
 
-            // * BOOKMARK --->
+            // SPACER
+            Spacer(),
+
+            // BOOKMARK
             IconButton(
               tooltip: 'Suka',
               icon: const Icon(Icons.favorite_border_outlined,
@@ -326,6 +228,10 @@ class _DemoBottomAppBar extends StatelessWidget {
                   builder: (BuildContext context) => const FavoritesScreen())),
             ),
 
+            // SPACER
+            Spacer(),
+
+            // HOME
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home_filled, color: Colors.white),

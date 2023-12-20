@@ -82,16 +82,20 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Color.fromARGB(255, 84, 65, 1),
-          centerTitle: true,
-          title: Text(
-            'Favorites',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold, // Make the text bold
-            ),
-          )),
+        title: const Text(
+          'Favorite',
+          style: TextStyle(
+            color: Color.fromARGB(255, 255, 255, 255),
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 6, 0, 83),
+      ),
+
+      //! <<--------Daftar Gunung yang di Favoritkan--------->>
+
       body: Container(
         color: Color(0xFF000000),
         child: StreamBuilder(
@@ -105,17 +109,22 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         streamSnapshot.data!.docs[index];
                     return GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => DetailScreen(
-                        //       gunungs: dataResep[index],
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailScreen(
+                              nama: documents['nama'],
+                              tiket: documents['tiket'],
+                              jam: documents['jam'],
+                              desc: documents['desc'],
+                              pict: documents['pict'],
+                              lokasi: documents['lokasi'],
+                            ),
+                          ),
+                        );
                       },
                       child: Card(
-                        color: Color.fromARGB(255, 84, 65, 1),
+                        color: const Color(0xFF0F1A1A),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
@@ -123,17 +132,19 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           child: Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
-                                    dataResep[index].image,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                                padding: const EdgeInsets.all(10.0),
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      "https://drive.google.com/uc?export=view&id=${documents['pict']}",
+                                    ),
                                   ),
-                                ),
+                                ), // fit: BoxFit.cover,
                               ),
+                              SizedBox(width: 30),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,11 +155,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                       children: [
                                         Text(
                                           documents['nama'],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 25,
-                                            color: Colors
-                                                .white, // Ubah warna teks menjadi putih
+                                            fontSize: 20,
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.white,
                                           ),
                                         ),
                                         MouseRegion(
@@ -173,52 +184,26 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                         ),
                                       ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(width: 2),
-                                          Text(
-                                            documents['lokasi'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    SizedBox(
+                                      height: 10,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 2),
+                                        Text(
+                                          documents['lokasi'],
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.grey,
+                                            fontSize: 13,
                                           ),
-                                          SizedBox(width: 2),
-                                          Text(
-                                            dataResep[index].rating,
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 40),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -234,54 +219,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               return Text('no data');
             }),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Color.fromARGB(255, 48, 48, 48),
-      //   selectedItemColor: Colors.blueAccent,
-      //   unselectedItemColor: Colors.white,
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Beranda',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.favorite),
-      //       label: 'Favorit',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.person),
-      //       label: 'Profil',
-      //     ),
-      //   ],
-      //   currentIndex: 1,
-      //   onTap: (int index) {
-      //     switch (index) {
-      //       case 0:
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => HomeScreen()),
-      //         );
-      //         break;
-      //       case 1:
-      //         // Do nothing (already on FavoritesScreen)
-      //         break;
-      //       case 2:
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => ProfilScreen()),
-      //         );
-      //         break;
-      //     }
-      //   },
-      // ),
-      // floatingActionButton: _showFab
-      //     ? FloatingActionButton(
-      //         onPressed: () {},
-      //         tooltip: 'Cari Film',
-      //         elevation: _isVisible ? 0.0 : null,
-      //         backgroundColor: Colors.amber[700],
-      //         child: const Icon(Icons.search),
-      //       )
-      // : null,
       floatingActionButtonLocation: _fabLocation,
       bottomNavigationBar:
           _DemoBottomAppBar(isElevated: _isElevated, isVisible: _isVisible),
@@ -305,10 +242,12 @@ class _DemoBottomAppBar extends StatelessWidget {
       height: isVisible ? 80.0 : 0,
       child: BottomAppBar(
         elevation: isElevated ? null : 0.0,
-        color: Color.fromARGB(255, 84, 65, 1),
+        color: const Color.fromARGB(255, 6, 0, 83),
         child: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.spaceAround, // Center buttons with space around
           children: <Widget>[
-            // * PROFIL --->
+            // PROFIL
             IconButton(
               tooltip: 'Profil Kamu',
               icon: const Icon(
@@ -321,15 +260,22 @@ class _DemoBottomAppBar extends StatelessWidget {
                       builder: (BuildContext context) => ProfilScreen())),
             ),
 
-            // * BOOKMARK --->
+            // SPACER
+            Spacer(),
+
+            // Favorit
             IconButton(
-              tooltip: 'Suka',
+              tooltip: 'Favorit',
               icon: const Icon(Icons.favorite_border_outlined,
                   color: Colors.white),
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => const FavoritesScreen())),
             ),
 
+            // SPACER
+            Spacer(),
+
+            // HOME
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home_filled, color: Colors.white),

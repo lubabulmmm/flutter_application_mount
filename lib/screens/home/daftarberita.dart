@@ -134,25 +134,27 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text(
-          'Berita Gunung',
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Daftar Berita',
           style: TextStyle(
-            color: Colors.white,
+            color: Color.fromARGB(255, 255, 255, 255),
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
           ),
-        )),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
-        backgroundColor: Color(0xFF0F1A1A),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 6, 0, 83),
       ),
+
+//!   <<--------Daftar Berita------>>
+
       body: Container(
-        color: Color(0xFF000000),
+        color: const Color(0xFF000000),
         child: StreamBuilder(
             stream: _newsMount.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshott) {
@@ -177,7 +179,7 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                         );
                       },
                       child: Card(
-                        color: Color(0xFF0F1A1A),
+                        color: const Color(0xFF0F1A1A),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
@@ -185,7 +187,7 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                           child: Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(10.0),
                                 child: Container(
                                   width: 150,
                                   height: 150,
@@ -195,6 +197,7 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                                           "https://drive.google.com/uc?export=view&id=${dokumen['pict']}")),
                                 ),
                               ),
+                              const SizedBox(width: 30),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,60 +206,40 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          dokumen['judul'],
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        // MouseRegion(
-                                        //   cursor: SystemMouseCursors.click,
-                                        //   child: IconButton(
-                                        //     icon: Icon(
-                                        //       dataResep[index].isFavorite
-                                        //           ? Icons.favorite
-                                        //           : Icons
-                                        //               .favorite_border_outlined,
-                                        //       color: dataResep[index].isFavorite
-                                        //           ? Colors.red
-                                        //           : Colors.white,
-                                        //     ),
-                                        //     onPressed: () {
-                                        //       setState(() {
-                                        //         dataResep[index].isFavorite =
-                                        //             !dataResep[index]
-                                        //                 .isFavorite;
-                                        //       });
-                                        //       // Handle button click
-                                        //     },
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            dokumen['sumber'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
+                                        Container(
+                                          width: 300,
+                                          child: Text(
+                                            dokumen['judul'],
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white,
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.article_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          dokumen['sumber'],
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.grey,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -270,7 +253,7 @@ class _DaftarBeritaGunungState extends State<DaftarBeritaGunung> {
                 );
               }
 
-              return Text('Tidak ada data');
+              return const Text('Tidak ada data');
             }),
       ),
     );

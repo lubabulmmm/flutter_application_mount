@@ -19,25 +19,27 @@ class _DaftarGunungState extends State<DaftarGunung> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
           'Daftar Gunung',
           style: TextStyle(
-            color: Colors.white,
+            color: Color.fromARGB(255, 255, 255, 255),
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
           ),
-        )),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
-        backgroundColor: Color(0xFF0F1A1A),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 6, 0, 83),
       ),
+
+      //! <<--------Daftar Gunung--------->>
+
       body: Container(
-        color: Color(0xFF000000),
+        color: const Color(0xFF000000),
         child: StreamBuilder(
             stream: _favListMount.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
@@ -64,7 +66,7 @@ class _DaftarGunungState extends State<DaftarGunung> {
                         );
                       },
                       child: Card(
-                        color: Color(0xFF0F1A1A),
+                        color: const Color(0xFF0F1A1A),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
@@ -72,7 +74,7 @@ class _DaftarGunungState extends State<DaftarGunung> {
                           child: Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(10.0),
                                 child: Container(
                                   width: 150,
                                   height: 150,
@@ -82,6 +84,7 @@ class _DaftarGunungState extends State<DaftarGunung> {
                                           "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
                                 ),
                               ),
+                              SizedBox(width: 30),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,83 +95,35 @@ class _DaftarGunungState extends State<DaftarGunung> {
                                       children: [
                                         Text(
                                           documents['nama'],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
                                           ),
                                         ),
-                                        // MouseRegion(
-                                        //   cursor: SystemMouseCursors.click,
-                                        //   child: IconButton(
-                                        //     icon: Icon(
-                                        //       dataResep[index].isFavorite
-                                        //           ? Icons.favorite
-                                        //           : Icons
-                                        //               .favorite_border_outlined,
-                                        //       color: dataResep[index].isFavorite
-                                        //           ? Colors.red
-                                        //           : Colors.white,
-                                        //     ),
-                                        //     onPressed: () {
-                                        //       setState(() {
-                                        //         dataResep[index].isFavorite =
-                                        //             !dataResep[index]
-                                        //                 .isFavorite;
-                                        //       });
-                                        //       // Handle button click
-                                        //     },
-                                        //   ),
-                                        // ),
                                       ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            documents['lokasi'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    SizedBox(
+                                      height: 10,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.favorite_border_outlined,
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          documents['lokasi'],
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w300,
                                             color: Colors.grey,
+                                            fontSize: 13,
                                           ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            documents['tiket'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 40),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -182,7 +137,7 @@ class _DaftarGunungState extends State<DaftarGunung> {
                 );
               }
 
-              return Text('Tidak ada data');
+              return const Text('Tidak ada data');
             }),
       ),
     );

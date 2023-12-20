@@ -92,21 +92,21 @@ class HomeState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Konfirmasi'),
-          content: Text('Anda yakin ingin keluar?'),
+          title: const Text('Konfirmasi'),
+          content: const Text('Anda yakin ingin keluar?'),
           actions: <Widget>[
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 await _auth.signOut();
               },
-              child: Text('Ya'),
+              child: const Text('Ya'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Tidak'),
+              child: const Text('Tidak'),
             ),
           ],
         );
@@ -118,55 +118,56 @@ class HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 98, 62, 1),
+        backgroundColor: Color.fromARGB(255, 6, 0, 83),
         centerTitle: true,
-        title: Text(
-          'Daftar Gunung',
+        title: const Text(
+          'Beranda',
           style: TextStyle(
-              fontSize: 20.0,
-              color: const Color.fromARGB(255, 255, 255, 255),
-              fontWeight: FontWeight.bold),
+            color: Color.fromARGB(255, 255, 255, 255),
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w500,
+          ),
         ),
         actions: <Widget>[
           ElevatedButton(
             onPressed: () {
               _confirmSignOut();
             },
-            child: Text('Keluar'),
+            child: const Text('Keluar'),
           )
         ],
       ),
       body: Container(
-        color: Color.fromARGB(255, 0, 0, 0),
+        color: const Color.fromARGB(255, 0, 0, 0),
         child: ListView(
           children: [
             // Search Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 40,
-                      width: 300,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Cari',
-                          filled: true,
-                          fillColor: Colors.white,
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+            //   child: Row(
+            //     children: [
+            //       Expanded(
+            //         child: Container(
+            //           height: 40,
+            //           width: 300,
+            //           child: TextField(
+            //             decoration: InputDecoration(
+            //               hintText: 'Cari',
+            //               filled: true,
+            //               fillColor: Colors.white,
+            //               prefixIcon: Icon(Icons.search),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(30),
+            //                 borderSide: BorderSide.none,
+            //               ),
+            //               contentPadding: EdgeInsets.symmetric(vertical: 12),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             // Image Slider (Gunung)
             Container(
               height: 200,
@@ -182,7 +183,7 @@ class HomeState extends State<HomeScreen> {
                   return Container(
                     width: 300,
                     height: 700,
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
@@ -194,19 +195,21 @@ class HomeState extends State<HomeScreen> {
                 },
               ),
             ),
-            // List of Mountains
+
+            // ! <<------ Daftar Gunung------>>
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Daftar Gunung',
                     style: TextStyle(
                       fontFamily: 'Monserrat',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                   TextButton(
@@ -216,12 +219,12 @@ class HomeState extends State<HomeScreen> {
                         MaterialPageRoute(builder: (context) => DaftarGunung()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Lainnya',
                       style: TextStyle(
                         fontFamily: 'Monserrat',
                         fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 255, 255, 255),
+                        color: Color.fromARGB(255, 0, 119, 255),
                       ),
                     ),
                   ),
@@ -231,7 +234,7 @@ class HomeState extends State<HomeScreen> {
 
             // Mountain List
             Container(
-              height: 260,
+              height: 280,
               child: StreamBuilder(
                   stream: _favListMount.snapshots(),
                   builder:
@@ -243,7 +246,8 @@ class HomeState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           final DocumentSnapshot documents =
                               streamSnapshot.data!.docs[index];
-                          Future<dynamic> addToBookmark() async {
+
+                          Future<dynamic> addToFavorite() async {
                             FirebaseAuth _auth = FirebaseAuth.instance;
                             var currentUser = _auth.currentUser;
                             CollectionReference _collectionReference =
@@ -253,7 +257,7 @@ class HomeState extends State<HomeScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text(
-                                        'Berhasil Menambahkan ke Bookmark')));
+                                        'Berhasil Menambahkan ke Favorit')));
 
                             return _collectionReference
                                 .doc(currentUser!.email)
@@ -263,8 +267,10 @@ class HomeState extends State<HomeScreen> {
                               "nama": documents['nama'],
                               "lokasi": documents['lokasi'],
                               "pict": documents['pict'],
-                            }).then((value) =>
-                                    print('Ditambahkan ke bookmark'));
+                              "desc": documents['desc'],
+                              "jam": documents['jam'],
+                              "tiket": documents['tiket']
+                            }).then((value) => print('Ditambahkan ke favorit'));
                           }
 
                           return GestureDetector(
@@ -284,11 +290,11 @@ class HomeState extends State<HomeScreen> {
                               );
                             },
                             child: Card(
-                              color: Color(0xFF000000),
+                              color: const Color(0xFF000000),
                               child: Container(
                                 width: 200,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 84, 65, 1),
+                                  color: const Color(0xFF0F1A1A),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -304,34 +310,34 @@ class HomeState extends State<HomeScreen> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                        bottom: 5.0,
+                                        bottom: 8.0,
                                         top: 8.0,
+                                        right: 8.0,
                                         left: 12.0,
                                       ),
                                       child: Text(
                                         documents['nama'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: 'Monserrat',
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white,
                                           fontSize: 16,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
+                                        // overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
+                                      padding: const EdgeInsets.only(left: 8.0),
                                       child: Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.location_on_outlined,
                                             color: Colors.grey,
                                           ),
-                                          SizedBox(width: 4),
+                                          const SizedBox(width: 6),
                                           Text(
                                             documents['lokasi'],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w300,
                                               color: Colors.grey,
@@ -341,55 +347,48 @@ class HomeState extends State<HomeScreen> {
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          StreamBuilder(
-                                              stream: FirebaseFirestore.instance
-                                                  .collection('fav-user')
-                                                  .doc(FirebaseAuth.instance
-                                                      .currentUser!.email)
-                                                  .collection('items')
-                                                  .where('nama',
-                                                      isEqualTo:
-                                                          documents['nama'])
-                                                  .snapshots(),
-                                              builder: (context,
-                                                  AsyncSnapshot snapshot) {
-                                                return IconButton(
-                                                  onPressed: addToBookmark,
-                                                  icon: snapshot.data.docs
-                                                              .length ==
-                                                          0
-                                                      ? Icon(
-                                                          Icons
-                                                              .favorite_outline,
-                                                          color:
-                                                              Colors.red[800],
-                                                        )
-                                                      : Icon(Icons.favorite,
-                                                          color:
-                                                              Colors.red[800]),
-                                                  color: Colors.red,
-                                                );
-                                              }),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            documents['tiket'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
+                                    Row(
+                                      children: [
+                                        StreamBuilder(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('fav-user')
+                                                .doc(FirebaseAuth.instance
+                                                    .currentUser!.email)
+                                                .collection('items')
+                                                .where('nama',
+                                                    isEqualTo:
+                                                        documents['nama'])
+                                                .snapshots(),
+                                            builder: (context,
+                                                AsyncSnapshot snapshot) {
+                                              return IconButton(
+                                                onPressed: addToFavorite,
+                                                icon: snapshot
+                                                            .data.docs.length ==
+                                                        0
+                                                    ? Icon(
+                                                        Icons.favorite_outline,
+                                                        color: Colors.red[800],
+                                                      )
+                                                    : Icon(Icons.favorite,
+                                                        color: Colors.red[800]),
+                                                color: Colors.red,
+                                              );
+                                            }),
+                                        // const SizedBox(width: 2),
+                                        const Text(
+                                          'Favorit',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.grey,
+                                            fontSize: 13,
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 40),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(right: 40),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -399,23 +398,24 @@ class HomeState extends State<HomeScreen> {
                         },
                       );
                     }
-                    return Text('Tidak ada data');
+                    return const Text('Tidak ada data');
                   }),
             ),
 
-            // List of News
+            //! <<------Daftar Berita----->>
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Berita',
                     style: TextStyle(
                       fontFamily: 'Monserrat',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                   TextButton(
@@ -426,107 +426,20 @@ class HomeState extends State<HomeScreen> {
                             builder: (context) => DaftarBeritaGunung()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Lainnya',
                       style: TextStyle(
                         fontFamily: 'Monserrat',
                         fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 255, 255, 255),
+                        color: Color.fromARGB(255, 0, 119, 255),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            // News List
-            // Container(
-            //   height: 230,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: dataBerita.length,
-            //     itemBuilder: (context, index) {
-            //       return GestureDetector(
-            //         onTap: () {
-            //           Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //               builder: (context) => DetailScreenBerita(
-            //                 beritaa: dataBerita[index],
-            //               ),
-            //             ),
-            //           );
-            //         },
-            //         child: Card(
-            //           color: Color.fromARGB(255, 88, 63, 2),
-            //           child: Container(
-            //             width: 250,
-            //             decoration: BoxDecoration(
-            //               color: Color(0xFF0F1A1A),
-            //               borderRadius: BorderRadius.circular(10),
-            //             ),
-            //             child: Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 ClipRRect(
-            //                   borderRadius: BorderRadius.circular(8),
-            //                   child: Image.asset(
-            //                     dataBerita[index].image,
-            //                     width: 250,
-            //                     height: 150,
-            //                     fit: BoxFit.cover,
-            //                   ),
-            //                 ),
-            //                 Padding(
-            //                   padding: const EdgeInsets.only(
-            //                     bottom: 5.0,
-            //                     top: 8.0,
-            //                     left: 12.0,
-            //                   ),
-            //                   child: Text(
-            //                     dataBerita[index].judul,
-            //                     style: TextStyle(
-            //                       fontFamily: 'Monserrat',
-            //                       fontWeight: FontWeight.bold,
-            //                       color: Colors.white,
-            //                       fontSize: 16,
-            //                     ),
-            //                     overflow: TextOverflow.ellipsis,
-            //                   ),
-            //                 ),
-            //                 Padding(
-            //                   padding:
-            //                       const EdgeInsets.only(bottom: 5.0, left: 8.0),
-            //                   child: Row(
-            //                     children: [
-            //                       Icon(
-            //                         Icons.location_on_outlined,
-            //                         color: Colors.grey,
-            //                       ),
-            //                       SizedBox(width: 8),
-            //                       Text(
-            //                         dataBerita[index].sumber,
-            //                         style: TextStyle(
-            //                           fontFamily: 'Poppins',
-            //                           fontWeight: FontWeight.w300,
-            //                           color: Colors.grey,
-            //                           fontSize: 13,
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
-
             Container(
-              height: 260,
+              height: 280,
               child: StreamBuilder(
                   stream: _newsMount.snapshots(),
                   builder:
@@ -553,11 +466,11 @@ class HomeState extends State<HomeScreen> {
                               );
                             },
                             child: Card(
-                              color: Color(0xFF000000),
+                              color: const Color(0xFF000000),
                               child: Container(
                                 width: 200,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 84, 65, 1),
+                                  color: const Color(0xFF0F1A1A),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -575,17 +488,18 @@ class HomeState extends State<HomeScreen> {
                                       padding: const EdgeInsets.only(
                                         bottom: 5.0,
                                         top: 8.0,
+                                        right: 8.0,
                                         left: 12.0,
                                       ),
                                       child: Text(
                                         dokumen['judul'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: 'Monserrat',
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white,
-                                          fontSize: 16,
+                                          fontSize: 14,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
+                                        // overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                     Padding(
@@ -593,14 +507,14 @@ class HomeState extends State<HomeScreen> {
                                           bottom: 5.0, left: 8.0),
                                       child: Row(
                                         children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
+                                          const Icon(
+                                            Icons.article_outlined,
                                             color: Colors.grey,
                                           ),
-                                          SizedBox(width: 4),
+                                          const SizedBox(width: 4),
                                           Text(
                                             dokumen['sumber'],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w300,
                                               color: Colors.grey,
@@ -618,81 +532,21 @@ class HomeState extends State<HomeScreen> {
                         },
                       );
                     }
-                    return Text('Tidak ada data');
+                    return const Text('Tidak ada data');
                   }),
             ),
           ],
         ),
       ),
-      // floatingActionButton: _showFab
-      //     ? FloatingActionButton(
-      //         onPressed: () {},
-      //         tooltip: 'Cari Film',
-      //         elevation: _isVisible ? 0.0 : null,
-      //         backgroundColor: Colors.amber[700],
-      //         child: const Icon(Icons.search),
-      //       )
-      //     : null,
+
+      //! <<----------Nav Bottom Bar------->>
+
       floatingActionButtonLocation: _fabLocation,
       bottomNavigationBar:
           _DemoBottomAppBar(isElevated: _isElevated, isVisible: _isVisible),
     );
   }
 }
-
-// class _DemoBottomAppBar extends StatelessWidget {
-//   const _DemoBottomAppBar({
-//     required this.isElevated,
-//     required this.isVisible,
-//   });
-
-//   final bool isElevated;
-//   final bool isVisible;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AnimatedContainer(
-//       duration: const Duration(milliseconds: 200),
-//       height: isVisible ? 80.0 : 0,
-//       child: BottomAppBar(
-//         elevation: isElevated ? null : 0.0,
-//         color: Color.fromARGB(255, 84, 65, 1),
-//         child: Row(
-//           children: <Widget>[
-//             // * PROFIL --->
-//             IconButton(
-//               tooltip: 'Profil Kamu',
-//               icon: const Icon(
-//                 Icons.person_2_sharp,
-//                 color: Colors.white,
-//               ),
-//               onPressed: () => Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                       builder: (BuildContext context) => ProfilScreen())),
-//             ),
-
-//             // * BOOKMARK --->
-//             IconButton(
-//               tooltip: 'Suka',
-//               icon: const Icon(Icons.favorite_border_outlined,
-//                   color: Colors.white),
-//               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-//                   builder: (BuildContext context) => const FavoritesScreen())),
-//             ),
-
-//             IconButton(
-//               tooltip: 'Home',
-//               icon: const Icon(Icons.home_filled, color: Colors.white),
-//               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-//                   builder: (BuildContext context) => const HomeScreen())),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class _DemoBottomAppBar extends StatelessWidget {
   const _DemoBottomAppBar({
@@ -710,7 +564,7 @@ class _DemoBottomAppBar extends StatelessWidget {
       height: isVisible ? 80.0 : 0,
       child: BottomAppBar(
         elevation: isElevated ? null : 0.0,
-        color: Color.fromARGB(255, 84, 65, 1),
+        color: Color.fromARGB(255, 6, 0, 83),
         child: Row(
           mainAxisAlignment:
               MainAxisAlignment.spaceAround, // Center buttons with space around
@@ -725,15 +579,15 @@ class _DemoBottomAppBar extends StatelessWidget {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => ProfilScreen())),
+                      builder: (BuildContext context) => const ProfilScreen())),
             ),
 
             // SPACER
-            Spacer(),
+            const Spacer(),
 
-            // BOOKMARK
+            //Favorite
             IconButton(
-              tooltip: 'Suka',
+              tooltip: 'Favorit',
               icon: const Icon(Icons.favorite_border_outlined,
                   color: Colors.white),
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
@@ -741,7 +595,7 @@ class _DemoBottomAppBar extends StatelessWidget {
             ),
 
             // SPACER
-            Spacer(),
+            const Spacer(),
 
             // HOME
             IconButton(
