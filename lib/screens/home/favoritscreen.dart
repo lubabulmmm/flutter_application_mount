@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_application_mount/screens/home/detailgunung.dart';
@@ -64,6 +66,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     super.dispose();
   } // Add this line to define isFavorite
 
+  final CollectionReference _favListUser = FirebaseFirestore.instance
+      .collection('fav-user')
+      .doc(FirebaseAuth.instance.currentUser!.email)
+      .collection('items');
+
+  Future<void> _deleteItems(String itemsID) async {
+    await _favListUser.doc(itemsID).delete();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Berhasil Menghapus Dari Favorite')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,135 +94,145 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           )),
       body: Container(
         color: Color(0xFF000000),
-        child: ListView.builder(
-          itemCount: dataResep.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => DetailScreen(
-                //       gunungs: dataResep[index],
-                //     ),
-                //   ),
-                // );
-              },
-              child: Card(
-                color: Color.fromARGB(255, 84, 65, 1),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            dataResep[index].image,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
+        child: StreamBuilder(
+            stream: _favListUser.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                return ListView.builder(
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documents =
+                        streamSnapshot.data!.docs[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DetailScreen(
+                        //       gunungs: dataResep[index],
+                        //     ),
+                        //   ),
+                        // );
+                      },
+                      child: Card(
+                        color: Color.fromARGB(255, 84, 65, 1),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.asset(
+                                    dataResep[index].image,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          documents['nama'],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                            color: Colors
+                                                .white, // Ubah warna teks menjadi putih
+                                          ),
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () {
+                                              // Handle button click
+                                              _favListUser
+                                                  .doc(documents.id)
+                                                  .delete();
+
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          'Berhasil Menghapus Dari Favorite')));
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5.0, left: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.location_on_outlined,
+                                            color: Colors.grey,
+                                          ),
+                                          SizedBox(width: 2),
+                                          Text(
+                                            documents['lokasi'],
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w300,
+                                              color: Colors.grey,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5.0, left: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          SizedBox(width: 2),
+                                          Text(
+                                            dataResep[index].rating,
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w300,
+                                              color: Colors.grey,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 40),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  dataResep[index].name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25,
-                                    color: Colors
-                                        .white, // Ubah warna teks menjadi putih
-                                  ),
-                                ),
-                                MouseRegion(
-                                  cursor: SystemMouseCursors.click,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      dataResep[index].isFavorite
-                                          ? Icons.favorite
-                                          : Icons.favorite_border_outlined,
-                                      color: dataResep[index].isFavorite
-                                          ? Colors.red
-                                          : Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        dataResep[index].isFavorite =
-                                            !dataResep[index].isFavorite;
-                                      });
-                                      // Handle button click
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 5.0, left: 8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on_outlined,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 2),
-                                  Text(
-                                    dataResep[index].lokasi,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 5.0, left: 8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  ),
-                                  SizedBox(width: 2),
-                                  Text(
-                                    dataResep[index].rating,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 40),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+                    );
+                  },
+                );
+              }
+              return Text('no data');
+            }),
       ),
       // bottomNavigationBar: BottomNavigationBar(
       //   backgroundColor: Color.fromARGB(255, 48, 48, 48),

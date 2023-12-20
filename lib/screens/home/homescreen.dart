@@ -243,6 +243,30 @@ class HomeState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           final DocumentSnapshot documents =
                               streamSnapshot.data!.docs[index];
+                          Future<dynamic> addToBookmark() async {
+                            FirebaseAuth _auth = FirebaseAuth.instance;
+                            var currentUser = _auth.currentUser;
+                            CollectionReference _collectionReference =
+                                FirebaseFirestore.instance
+                                    .collection('fav-user');
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Berhasil Menambahkan ke Bookmark')));
+
+                            return _collectionReference
+                                .doc(currentUser!.email)
+                                .collection('items')
+                                .doc()
+                                .set({
+                              "nama": documents['nama'],
+                              "lokasi": documents['lokasi'],
+                              "pict": documents['pict'],
+                            }).then((value) =>
+                                    print('Ditambahkan ke bookmark'));
+                          }
+
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -322,10 +346,35 @@ class HomeState extends State<HomeScreen> {
                                           bottom: 5.0, left: 8.0),
                                       child: Row(
                                         children: [
-                                          Icon(
-                                            Icons.favorite,
-                                            color: Colors.red,
-                                          ),
+                                          StreamBuilder(
+                                              stream: FirebaseFirestore.instance
+                                                  .collection('fav-user')
+                                                  .doc(FirebaseAuth.instance
+                                                      .currentUser!.email)
+                                                  .collection('items')
+                                                  .where('nama',
+                                                      isEqualTo:
+                                                          documents['nama'])
+                                                  .snapshots(),
+                                              builder: (context,
+                                                  AsyncSnapshot snapshot) {
+                                                return IconButton(
+                                                  onPressed: addToBookmark,
+                                                  icon: snapshot.data.docs
+                                                              .length ==
+                                                          0
+                                                      ? Icon(
+                                                          Icons
+                                                              .favorite_outline,
+                                                          color:
+                                                              Colors.red[800],
+                                                        )
+                                                      : Icon(Icons.favorite,
+                                                          color:
+                                                              Colors.red[800]),
+                                                  color: Colors.red,
+                                                );
+                                              }),
                                           SizedBox(width: 4),
                                           Text(
                                             documents['tiket'],
@@ -575,21 +624,75 @@ class HomeState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: _showFab
-          ? FloatingActionButton(
-              onPressed: () {},
-              tooltip: 'Cari Film',
-              elevation: _isVisible ? 0.0 : null,
-              backgroundColor: Colors.amber[700],
-              child: const Icon(Icons.search),
-            )
-          : null,
+      // floatingActionButton: _showFab
+      //     ? FloatingActionButton(
+      //         onPressed: () {},
+      //         tooltip: 'Cari Film',
+      //         elevation: _isVisible ? 0.0 : null,
+      //         backgroundColor: Colors.amber[700],
+      //         child: const Icon(Icons.search),
+      //       )
+      //     : null,
       floatingActionButtonLocation: _fabLocation,
       bottomNavigationBar:
           _DemoBottomAppBar(isElevated: _isElevated, isVisible: _isVisible),
     );
   }
 }
+
+// class _DemoBottomAppBar extends StatelessWidget {
+//   const _DemoBottomAppBar({
+//     required this.isElevated,
+//     required this.isVisible,
+//   });
+
+//   final bool isElevated;
+//   final bool isVisible;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedContainer(
+//       duration: const Duration(milliseconds: 200),
+//       height: isVisible ? 80.0 : 0,
+//       child: BottomAppBar(
+//         elevation: isElevated ? null : 0.0,
+//         color: Color.fromARGB(255, 84, 65, 1),
+//         child: Row(
+//           children: <Widget>[
+//             // * PROFIL --->
+//             IconButton(
+//               tooltip: 'Profil Kamu',
+//               icon: const Icon(
+//                 Icons.person_2_sharp,
+//                 color: Colors.white,
+//               ),
+//               onPressed: () => Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                       builder: (BuildContext context) => ProfilScreen())),
+//             ),
+
+//             // * BOOKMARK --->
+//             IconButton(
+//               tooltip: 'Suka',
+//               icon: const Icon(Icons.favorite_border_outlined,
+//                   color: Colors.white),
+//               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+//                   builder: (BuildContext context) => const FavoritesScreen())),
+//             ),
+
+//             IconButton(
+//               tooltip: 'Home',
+//               icon: const Icon(Icons.home_filled, color: Colors.white),
+//               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+//                   builder: (BuildContext context) => const HomeScreen())),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _DemoBottomAppBar extends StatelessWidget {
   const _DemoBottomAppBar({
@@ -609,8 +712,10 @@ class _DemoBottomAppBar extends StatelessWidget {
         elevation: isElevated ? null : 0.0,
         color: Color.fromARGB(255, 84, 65, 1),
         child: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.spaceAround, // Center buttons with space around
           children: <Widget>[
-            // * PROFIL --->
+            // PROFIL
             IconButton(
               tooltip: 'Profil Kamu',
               icon: const Icon(
@@ -623,7 +728,10 @@ class _DemoBottomAppBar extends StatelessWidget {
                       builder: (BuildContext context) => ProfilScreen())),
             ),
 
-            // * BOOKMARK --->
+            // SPACER
+            Spacer(),
+
+            // BOOKMARK
             IconButton(
               tooltip: 'Suka',
               icon: const Icon(Icons.favorite_border_outlined,
@@ -632,6 +740,10 @@ class _DemoBottomAppBar extends StatelessWidget {
                   builder: (BuildContext context) => const FavoritesScreen())),
             ),
 
+            // SPACER
+            Spacer(),
+
+            // HOME
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home_filled, color: Colors.white),
