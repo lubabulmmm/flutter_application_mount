@@ -1,190 +1,32 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_application_mount/screens/home/detailgunung.dart';
-import 'package:flutter_application_mount/screens/home/gunung.dart';
+class berita {
+  String judul, sumber, deskripsi, image;
 
-class Beritaa extends StatefulWidget {
-  @override
-  _BeritaState createState() => _BeritaState();
+  berita(
+      {required this.judul,
+      required this.sumber,
+      required this.deskripsi,
+      required this.image});
 }
 
-class _BeritaState extends State<Beritaa> {
-  bool isSettingsSelected = false;
-
-  final CollectionReference _BerListMount =
-      FirebaseFirestore.instance.collection('news');
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-            child: Text(
-          'Berita Gunung',
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-          ),
-        )),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Color(0xFF0F1A1A),
-      ),
-      body: Container(
-        color: Color(0xFF000000),
-        child: StreamBuilder(
-            stream: _BerListMount.snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-              if (streamSnapshot.hasData) {
-                return ListView.builder(
-                  itemCount: streamSnapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    final DocumentSnapshot documents =
-                        streamSnapshot.data!.docs[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailScreen(
-                              nama: documents['nama'],
-                              tiket: documents['tiket'],
-                              jam: documents['jam'],
-                              desc: documents['desc'],
-                              pict: documents['pict'],
-                              lokasi: documents['lokasi'],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        color: Color(0xFF0F1A1A),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: 150,
-                                  height: 150,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.network(
-                                          "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          documents['nama'],
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        // MouseRegion(
-                                        //   cursor: SystemMouseCursors.click,
-                                        //   child: IconButton(
-                                        //     icon: Icon(
-                                        //       dataResep[index].isFavorite
-                                        //           ? Icons.favorite
-                                        //           : Icons
-                                        //               .favorite_border_outlined,
-                                        //       color: dataResep[index].isFavorite
-                                        //           ? Colors.red
-                                        //           : Colors.white,
-                                        //     ),
-                                        //     onPressed: () {
-                                        //       setState(() {
-                                        //         dataResep[index].isFavorite =
-                                        //             !dataResep[index]
-                                        //                 .isFavorite;
-                                        //       });
-                                        //       // Handle button click
-                                        //     },
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            documents['lokasi'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5.0, left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.favorite_border_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            documents['tiket'],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 40),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }
-
-              return Text('Tidak ada data');
-            }),
-      ),
-    );
-  }
-}
+List<berita> dataBerita = [
+  berita(
+      judul: 'Ini 4 Tingkatan Status Gunung Berapi dan Cara Mitigasinya',
+      sumber: 'bubub',
+      deskripsi:
+          'Gunung berapi memiliki empat tingkatan status keaktifan. Di tiap level memiliki makna berbeda dan mitigasinya pun berbeda jika terjadi erupsi. Setiap negara menerapkan sistem tingkatan status peringatan dalam menganalisa aktivitas vulkanik gunung berapi berbeda-beda. Indonesia sendiri menerapkan tingkatan status gunung api mulai dari terendah level 1 aktif normal, hingga paling bahaya level 4 awas. Berikut ini penjelasan dari masing-masing level tingkatan status gunung berapi di Indonesia, yang dilansir berbagai sumber resmi seperti BVPMBG, Indonesia Baik, dan BPPTKG ESDM.',
+      image: 'assets/Berita1.jpeg'),
+  berita(
+      judul:
+          '4 Alasan Kamu Harus Mendaki Gunung Rinjani, Nomor 4 Bikin Takjub!',
+      sumber: 'ipan',
+      deskripsi:
+          'Gunung Rinjani termasuk ke dalam Taman Nasional Gunung Rinjani (TNGR) yang amat dijaga kelestariannya dan dikelola keberlangsungannya oleh pemerintah. Gunung dengan tinggi 3.724 mdpl ini menduduki peringkat nomor 3 pada ranking top 7 gunung tertinggi di Indonesia.  Dengan fakta tersebut dan keindahan alamnya yang begitu eksotis membuat banyak pendaki baik dari dalam negeri hingga luar negeri tertarik untuk menginjakkan kaki di puncak gunung ini.',
+      image: 'assets/Berita2.jpeg'),
+  berita(
+      judul:
+          'Gunung Marapi Semburkan Awan Abu Seminggu Setelah Letusan Mematikan',
+      sumber: 'itu abid',
+      deskripsi:
+          'Gunung Marapi menyemburkan awan abu setinggi setengah kilometer ke langit pada hari Rabu (13/12), kata Pusat Vulkanoli dan Mitigasi Bencana Geologi (PVMBG), seminggu setelah letusan gunung itu merenggut nyawa 23 pendaki.Gunung setinggi 2.891 meter yang merupakan salah satu gunung berapi paling aktif di pulau Sumatera, meletus sekitar pukul 6 pagi waktu setempat pada Rabu pagi dan pada siang hari, kata Hendra Gunawan, kepala PVMBG.Letusan itu, katanya, relatif kecil mengingat aktivitasnya belakangan ini. Namun, kewaspadaan terhadap gunung berapi tersebut tetap berada pada tingkat tertinggi kedua.Rekaman gambar yang dilihat Reuters menunjukkan awan besar abu abu-abu mengepul dari kawah Marapi, dan warga sekitar melakukan aktivitas sehari-hari dari jarak yang aman.',
+      image: 'assets/Berita3.jpeg')
+];

@@ -73,6 +73,8 @@ class HomeState extends State<HomeScreen> {
 
   final CollectionReference _favListMount =
       FirebaseFirestore.instance.collection('fav-mount');
+  final CollectionReference _beritaMount =
+      FirebaseFirestore.instance.collection('news');
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +337,8 @@ class HomeState extends State<HomeScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DaftarBerita()),
+                        MaterialPageRoute(
+                            builder: (context) => DaftarBeritaGunung()),
                       );
                     },
                     child: Text(
@@ -351,10 +354,96 @@ class HomeState extends State<HomeScreen> {
               ),
             ),
             // News List
+            // Container(
+            //   height: 230,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: dataBerita.length,
+            //     itemBuilder: (context, index) {
+            //       return GestureDetector(
+            //         onTap: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) => DetailScreenBerita(
+            //                 beritaa: dataBerita[index],
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //         child: Card(
+            //           color: Color.fromARGB(255, 88, 63, 2),
+            //           child: Container(
+            //             width: 250,
+            //             decoration: BoxDecoration(
+            //               color: Color(0xFF0F1A1A),
+            //               borderRadius: BorderRadius.circular(10),
+            //             ),
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 ClipRRect(
+            //                   borderRadius: BorderRadius.circular(8),
+            //                   child: Image.asset(
+            //                     dataBerita[index].image,
+            //                     width: 250,
+            //                     height: 150,
+            //                     fit: BoxFit.cover,
+            //                   ),
+            //                 ),
+            //                 Padding(
+            //                   padding: const EdgeInsets.only(
+            //                     bottom: 5.0,
+            //                     top: 8.0,
+            //                     left: 12.0,
+            //                   ),
+            //                   child: Text(
+            //                     dataBerita[index].judul,
+            //                     style: TextStyle(
+            //                       fontFamily: 'Monserrat',
+            //                       fontWeight: FontWeight.bold,
+            //                       color: Colors.white,
+            //                       fontSize: 16,
+            //                     ),
+            //                     overflow: TextOverflow.ellipsis,
+            //                   ),
+            //                 ),
+            //                 Padding(
+            //                   padding:
+            //                       const EdgeInsets.only(bottom: 5.0, left: 8.0),
+            //                   child: Row(
+            //                     children: [
+            //                       Icon(
+            //                         Icons.location_on_outlined,
+            //                         color: Colors.grey,
+            //                       ),
+            //                       SizedBox(width: 8),
+            //                       Text(
+            //                         dataBerita[index].sumber,
+            //                         style: TextStyle(
+            //                           fontFamily: 'Poppins',
+            //                           fontWeight: FontWeight.w300,
+            //                           color: Colors.grey,
+            //                           fontSize: 13,
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
+
             Container(
               height: 260,
               child: StreamBuilder(
-                  stream: _favListMount.snapshots(),
+                  stream: _beritaMount.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
