@@ -352,88 +352,127 @@ class HomeState extends State<HomeScreen> {
             ),
             // News List
             Container(
-              height: 230,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: dataBerita.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailScreenBerita(
-                            beritaa: dataBerita[index],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      color: Color.fromARGB(255, 88, 63, 2),
-                      child: Container(
-                        width: 250,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF0F1A1A),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                dataBerita[index].image,
-                                width: 250,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 5.0,
-                                top: 8.0,
-                                left: 12.0,
-                              ),
-                              child: Text(
-                                dataBerita[index].judul,
-                                style: TextStyle(
-                                  fontFamily: 'Monserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 16,
+              height: 260,
+              child: StreamBuilder(
+                  stream: _favListMount.snapshots(),
+                  builder:
+                      (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                    if (streamSnapshot.hasData) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: streamSnapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          final DocumentSnapshot documents =
+                              streamSnapshot.data!.docs[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailScreen(
+                                    nama: documents['nama'],
+                                    tiket: documents['tiket'],
+                                    jam: documents['jam'],
+                                    desc: documents['desc'],
+                                    pict: documents['pict'],
+                                    lokasi: documents['lokasi'],
+                                  ),
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 5.0, left: 8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on_outlined,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    dataBerita[index].sumber,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey,
-                                      fontSize: 13,
+                              );
+                            },
+                            child: Card(
+                              color: Color(0xFF000000),
+                              child: Container(
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 84, 65, 1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                              "https://drive.google.com/uc?export=view&id=${documents['pict']}")),
                                     ),
-                                  ),
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 5.0,
+                                        top: 8.0,
+                                        left: 12.0,
+                                      ),
+                                      child: Text(
+                                        documents['nama'],
+                                        style: TextStyle(
+                                          fontFamily: 'Monserrat',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5.0, left: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.location_on_outlined,
+                                            color: Colors.grey,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            documents['lokasi'],
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w300,
+                                              color: Colors.grey,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5.0, left: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            documents['tiket'],
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w300,
+                                              color: Colors.grey,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 40),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                          );
+                        },
+                      );
+                    }
+                    return Text('Tidak ada data');
+                  }),
             ),
           ],
         ),
