@@ -31,7 +31,7 @@ class _RegisterState extends State<RegisterPage> {
             body: Center(
               child: Card(
                 elevation: 5.0,
-                color: Color.fromARGB(255, 49, 42, 3),
+                color: Color.fromARGB(255, 28, 33, 42),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
@@ -83,6 +83,9 @@ class _RegisterState extends State<RegisterPage> {
                                   setState(() => email = val);
                                 },
                                 cursorColor: Colors.red[800],
+                                style: TextStyle(
+                                    color: Colors
+                                        .white), // Set text color to white
                                 decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(15.0),
                                     enabledBorder: const OutlineInputBorder(
@@ -122,27 +125,30 @@ class _RegisterState extends State<RegisterPage> {
                                 obscureText: true,
                                 cursorColor:
                                     const Color.fromARGB(255, 255, 255, 255),
+                                style: TextStyle(
+                                    color: Colors
+                                        .white), // Set text color to white
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(15.0),
-                                    enabledBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 2,
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255)),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        borderSide: const BorderSide(
-                                            width: 2,
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255))),
-                                    labelText: 'Masukkan Kata Sandi',
-                                    labelStyle: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 255, 255, 255),
-                                        fontSize: 15.0)),
+                                  contentPadding: EdgeInsets.all(15.0),
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 2,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      borderSide: const BorderSide(
+                                          width: 2,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255))),
+                                  labelText: 'Masukkan Kata Sandi',
+                                  labelStyle: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255),
+                                      fontSize: 15.0),
+                                ),
                               ),
                               SizedBox(
                                 height: 20.0,
@@ -169,7 +175,7 @@ class _RegisterState extends State<RegisterPage> {
                                         elevation: 2.0,
                                         shape: StadiumBorder(),
                                         backgroundColor:
-                                            Color.fromARGB(255, 233, 218, 5)),
+                                            Color.fromARGB(255, 1, 57, 92)),
                                     child: const Text('Daftar Sekarang',
                                         style: TextStyle(
                                             color: const Color.fromARGB(
@@ -189,12 +195,12 @@ class _RegisterState extends State<RegisterPage> {
                                       padding: EdgeInsets.all(18.0),
                                       elevation: 2.0,
                                       shape: StadiumBorder(),
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 121, 70, 2)),
+                                      backgroundColor:
+                                          Color.fromARGB(255, 255, 255, 255)),
                                   child: const Text('Sudah Punya Akun? Masuk',
                                       style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 250, 250, 250),
+                                          color:
+                                              Color.fromARGB(255, 29, 28, 46),
                                           fontSize: 15.0)),
                                 ),
                               ),

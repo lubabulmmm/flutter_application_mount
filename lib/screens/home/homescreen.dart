@@ -141,45 +141,20 @@ class HomeState extends State<HomeScreen> {
         color: const Color.fromARGB(255, 0, 0, 0),
         child: ListView(
           children: [
-            // Search Bar
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //         child: Container(
-            //           height: 40,
-            //           width: 300,
-            //           child: TextField(
-            //             decoration: InputDecoration(
-            //               hintText: 'Cari',
-            //               filled: true,
-            //               fillColor: Colors.white,
-            //               prefixIcon: Icon(Icons.search),
-            //               border: OutlineInputBorder(
-            //                 borderRadius: BorderRadius.circular(30),
-            //                 borderSide: BorderSide.none,
-            //               ),
-            //               contentPadding: EdgeInsets.symmetric(vertical: 12),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Image Slider (Gunung)
             Container(
               height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 3,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   List<String> imageList = [
-                    'assets/Poster(1).jpeg',
-                    'assets/Poster(2).jpeg',
-                    'assets/Poster(3).jpg',
+                    'https://drive.google.com/uc?export=view&id=1ZUlmobYqYC77Eu5cXoXy6mBw3B4ikDR0',
+                    'https://drive.google.com/uc?export=view&id=1BN6DCfM3cAMOQhTGNPKjFY115Folv1iT',
+                    'https://drive.google.com/uc?export=view&id=1eia4odabZB2890SwYOfrGYe56WJ4bBT7',
+                    'https://drive.google.com/uc?export=view&id=1eia4odabZB2890SwYOfrGYe56WJ4bBT7',
+                    'https://drive.google.com/uc?export=view&id=1ZUlmobYqYC77Eu5cXoXy6mBw3B4ikDR0',
                   ];
+
                   return Container(
                     width: 300,
                     height: 700,
@@ -187,7 +162,7 @@ class HomeState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                        image: AssetImage(imageList[index]),
+                        image: NetworkImage(imageList[index]),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -197,6 +172,45 @@ class HomeState extends State<HomeScreen> {
             ),
 
             // ! <<------ Daftar Gunung------>>
+//tampilan daftar gunung berada di tengah dan lainnya di samping
+            // Container(
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text(
+            //         'Daftar Gunung',
+            //         style: TextStyle(
+            //           fontFamily: 'Monserrat',
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 20,
+            //           color: Color.fromARGB(255, 255, 255, 255),
+            //         ),
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.end,
+            //         children: [
+            //           TextButton(
+            //             onPressed: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) => DaftarGunung()),
+            //               );
+            //             },
+            //             child: Text(
+            //               'Lainnya',
+            //               style: TextStyle(
+            //                 fontFamily: 'Monserrat',
+            //                 fontWeight: FontWeight.w500,
+            //                 color: Color.fromARGB(255, 0, 119, 255),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -235,14 +249,20 @@ class HomeState extends State<HomeScreen> {
             // Mountain List
             Container(
               height: 280,
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: StreamBuilder(
                   stream: _favListMount.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
-                      return ListView.builder(
+                      return ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: streamSnapshot.data!.docs.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                              width:
+                                  5.0); // Adjust the width according to your preference
+                        },
                         itemBuilder: (context, index) {
                           final DocumentSnapshot documents =
                               streamSnapshot.data!.docs[index];
@@ -404,6 +424,45 @@ class HomeState extends State<HomeScreen> {
 
             //! <<------Daftar Berita----->>
 
+            // Container(
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text(
+            //         'Berita',
+            //         style: TextStyle(
+            //           fontFamily: 'Monserrat',
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 20,
+            //           color: Color.fromARGB(255, 255, 255, 255),
+            //         ),
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.end,
+            //         children: [
+            //           TextButton(
+            //             onPressed: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) => DaftarGunung()),
+            //               );
+            //             },
+            //             child: Text(
+            //               'Lainnya',
+            //               style: TextStyle(
+            //                 fontFamily: 'Monserrat',
+            //                 fontWeight: FontWeight.w500,
+            //                 color: Color.fromARGB(255, 0, 119, 255),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -440,14 +499,20 @@ class HomeState extends State<HomeScreen> {
             ),
             Container(
               height: 280,
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: StreamBuilder(
                   stream: _newsMount.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshott) {
                     if (streamSnapshott.hasData) {
-                      return ListView.builder(
+                      return ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: streamSnapshott.data!.docs.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                              width:
+                                  5.0); // Adjust the width according to your preference
+                        },
                         itemBuilder: (context, index) {
                           final DocumentSnapshot dokumen =
                               streamSnapshott.data!.docs[index];
@@ -584,7 +649,6 @@ class _DemoBottomAppBar extends StatelessWidget {
 
             // SPACER
             const Spacer(),
-
             //Favorite
             IconButton(
               tooltip: 'Favorit',

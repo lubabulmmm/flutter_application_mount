@@ -43,7 +43,7 @@ class _SignInPage1State extends State<SignInPage1> {
         child: Center(
           child: Card(
             elevation: 8,
-            color: Color.fromARGB(255, 49, 42, 3),
+            color: Color.fromARGB(255, 28, 33, 42),
             child: Container(
               padding: const EdgeInsets.all(37.0),
               constraints: const BoxConstraints(maxWidth: 375),

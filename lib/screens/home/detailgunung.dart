@@ -78,7 +78,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w700,
                             fontSize: 25,
-                            color: Color.fromARGB(255, 252, 252, 252),
+                            color: Color.fromARGB(255, 250, 248, 248),
                           ),
                         ),
                         const Spacer(),
