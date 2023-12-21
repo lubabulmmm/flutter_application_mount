@@ -119,7 +119,7 @@ class HomeState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 6, 0, 83),
-        centerTitle: true,
+        centerTitle: true, //untuk mengubah text beranda tengah
         title: const Text(
           'Beranda',
           style: TextStyle(
